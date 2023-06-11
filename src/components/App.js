@@ -3,6 +3,7 @@ import usdtLogo from '../USDT-logo.png';
 import './App.css';
 import Web3 from 'web3';
 import USDTMock from '../abis/USDTMock.json'
+import 'bootstrap/dist/css/bootstrap.css'
 
 class App extends Component {
   async componentWillMount() {
@@ -54,48 +55,53 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <div className="container-fluid p-2 bg-dark shadow ">
-        <p class="h1 text-start text-light fs-5 mr-8">
-          USDTM Wallet
-        </p>
-        </div>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex justify-content-center">
-              <div className="content mr-auto ml-auto" style={{ width: "400px" }}>
-                  <img src={usdtLogo} class="rounded mx-auto d-block" width="150" alt="description" />
-                <h1 class="text-lg-center">{this.state.balance} USDTM</h1>
-                <form onSubmit={(event) => {
+      <>
+        <nav className='navbar navbar-dark bg-dark shadow-lg '>
+          <h1 className='navbar-brand ms-2'>USDTM Wallet</h1>
+        </nav>
+
+        <div class="container m-x4 my-4">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+
+              <div class="card">
+                <div className="d-flex justify-content-center align-items-center">
+                  <img src={usdtLogo}  width="150"  alt="description" />
+                </div>
+               <div class="card-body">
+               <h1 class=" card-title text-center font-bold">{this.state.balance} USDTM</h1>
+               <form onSubmit={(event) => {
                   event.preventDefault()
                   const recipient = this.recipient.value
                   const amount = window.web3.utils.toWei(this.amount.value, 'Mwei')
                   this.transfer(recipient, amount)
                 }}>
                   <div className="form-group mr-sm-2">
-                    <input
+                      <input
                       id="recipient"
                       type="text"
                       ref={(input) => { this.recipient = input }}
                       className="form-control"
                       placeholder="Recipient Address"
                       required />
-                  </div>
+                   </div>
+
                   <div className="form-group mr-sm-2">
-                    <input
+                      <input
                       id="amount"
                       type="text"
                       ref={(input) => { this.amount = input }}
                       className="form-control"
                       placeholder="Amount"
                       required />
-                  </div>
-                  <div class = "text-center mt-1">
-                  <button type="submit" className="btn btn-primary btn-block">Send</button>
+                    </div>
+
+                    <div class = "text-center mt-1">
+                  <button type="submit" className="btn btn-outline-light btn-block">Send</button>
                   </div>
                 </form>
-                <table className="table">
-                  <thead>
+                   <table class="table mt-4">
+                   <thead>
                     <tr>
                       <th scope="col">Recipient</th>
                       <th scope="col">Value</th>
@@ -104,19 +110,22 @@ class App extends Component {
                   <tbody>
                     { this.state.transactions.map((tx, key) => {
                       return (
-                        <tr key={key} >
+                        <tr key={key}>
                           <td>{tx.returnValues.to}</td>
                           <td>{window.web3.utils.fromWei(tx.returnValues.value.toString(), 'Mwei')}</td>
                         </tr>
                       )
                     }) }
                   </tbody>
-                </table>
-              </div>
-            </main>
-          </div>
+                  </table>
+                </div>
         </div>
       </div>
+    </div>
+  </div>
+
+
+      </>
     );
   }
 }
